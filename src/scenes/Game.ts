@@ -4,11 +4,14 @@ import { GridManager } from '../singletons/GridManager';
 import { CollisionManager } from '../singletons/CollisionsManager';
 import { EntityRegistry } from '../singletons/EntityRegistry';
 import { SceneManager } from '../engine/SceneManager';
-import { Entity } from '../engine/Entity';
-import { CircleRenderer } from '../components/CircleRenderer';
+import { CircleRendererComponent, CircleRendererSystem } from '../components/CircleRenderer';
 import { Graphics } from '../singletons/Graphics';
-import { Transform } from '../components/Transform';
-import { Twiddle } from '../components/Twiddle';
+import { TransformComponent } from '../components/Transform';
+import { Twiddle } from '../systems/Twiddle';
+import { Entity } from 'ecs-lib';
+import { CircleEntity } from '../entities/CircleEntity';
+import { GridWalkingSystem } from '../systems/GridWalkingSystem';
+import { PlayerControls } from '../systems/PlayerControls';
 
 export class Game extends Scene
 {
@@ -38,15 +41,14 @@ export class Game extends Scene
         );
         singletonManager.getSingleton(Graphics).setScene(this);
 
-        const player = new Entity();
-        player.addComponent(new Transform(100, 100));
-        player.addComponent(new CircleRenderer(10, 0xff0000));
-        player.addComponent(new Twiddle());
+        // this.world.addSystem(new Twiddle());
+        sceneManager.world.addSystem(new CircleRendererSystem(singletonManager));
+        sceneManager.world.addSystem(new GridWalkingSystem(singletonManager));
+        sceneManager.world.addSystem(new PlayerControls());
+
+        const player = new CircleEntity(this);
 
         sceneManager.addEntity(player);
-
-        sceneManager.start();
-
         
 
         this.camera = this.cameras.main;

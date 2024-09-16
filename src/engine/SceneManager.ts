@@ -1,37 +1,32 @@
-import { Entity } from "./Entity";
+import ECS, { Entity } from "ecs-lib";
 import { SingletonManager } from "./SingletonManager";
+import { Twiddle } from "../systems/Twiddle";
+import { CircleRendererSystem } from "../components/CircleRenderer";
+import { GridWalkingSystem } from "../systems/GridWalkingSystem";
+import { PlayerControls } from "../systems/PlayerControls";
 
 /**
  * Manages a whole game scene and all the objects (Entities, Singletons)
  * that need to be created and destroyed in it.
  */
 export class SceneManager {
-    private entities: Entity[] = [];
+    public readonly world: ECS;
     public readonly singletonManager: SingletonManager = new SingletonManager();
     
     constructor() {
-    }
-
-    start() {
-        this.entities.forEach(e => e.init(this));
+        this.world = new ECS();
     }
 
     addEntity(entity: Entity) {
-        this.entities.push(entity);
+        this.world.addEntity(entity);
     }
 
     removeEntity(entity: Entity) {
-        let index = this.entities.indexOf(entity);
-        if (index >= 0) {
-            this.entities.splice(index, 1);
-        }
+        this.world.removeEntity(entity);
     }
 
     update() {
-        this.singletonManager.update();
-        for (let e of this.entities) {
-            e.update();
-        }
+        this.world.update();
     }
 
 }

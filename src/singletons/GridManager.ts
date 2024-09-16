@@ -18,7 +18,8 @@ class GridManagerDeps {
 export class GridManager extends GridManagerDeps {
     public static readonly Deps = GridManagerDeps;
 
-    number = 0;
+    public tileWidth = 32;
+    public tileHeight = 32;
 
     constructor(singletonManager: SingletonManager) {
         super(singletonManager);

@@ -1,44 +1,32 @@
-import { Component } from "../engine/Component";
-import { ArrayOfConstructors, MultiDict, NamedComponent } from "../engine/Util";
+import { Component, Entity, System } from "ecs-lib";
+import { SingletonManager } from "../engine/SingletonManager";
 import { Graphics } from "../singletons/Graphics";
+import { TransformComponent } from "./Transform";
 
 
 export type CircleRenderer = {
-    __name: "circleRenderer";
     radius: number;
     color: number;
 }
 
-export type Transform = {
-    __name: "transform";
-    x: number;
-    y: number;
+export const CircleRendererComponent = Component.register<CircleRenderer>();
+
+export class CircleRendererSystem extends System {
+
+    constructor(private singletonManager: SingletonManager) {
+        super([
+            TransformComponent.type,
+            CircleRendererComponent.type
+        ]);
+    }
+
+    enter(entity: Entity): void {
+        const transform = TransformComponent.oneFrom(entity).data;
+        const circleRenderer = CircleRendererComponent.oneFrom(entity).data;
+        const circle = this.singletonManager.getSingleton(Graphics).scene.add.circle(0, 0, circleRenderer.radius, circleRenderer.color);
+        transform.add(circle);
+    }
 }
-
-export const TestComponent = {
-    __name: "test",
-    x: 0,
-    y: 0,
-}
-
-type Player = MultiDict<[CircleRenderer, Transform]>;
-
-
-function test() {
-    let test: Player = {
-        circleRenderer: {
-            radius: 10,
-            color: 0xff0000
-        },
-        transform: {
-            x: 0,
-            y: 0
-        }
-    };
-    test.circleRenderer.color;
-
-}
-
 
 // export class CircleRenderer extends Component {
 
