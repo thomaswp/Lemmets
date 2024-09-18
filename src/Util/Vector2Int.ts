@@ -17,9 +17,14 @@ export class Vector2 {
         return new Vector2(this.x, this.y);
     }
 
-    set(other: Vector2): void {
+    setTo(other: Vector2): void {
         this.x = other.x;
         this.y = other.y;
+    }
+
+    setXY(x: number, y: number): void {
+        this.x = x;
+        this.y = y;
     }
 
     add(other: Vector2): void {

@@ -44,12 +44,12 @@ export class Game extends Scene
         // this.world.addSystem(new Twiddle());
         sceneManager.world.addSystem(new CircleRendererSystem(singletonManager));
         sceneManager.world.addSystem(new GridWalkingSystem(singletonManager));
-        sceneManager.world.addSystem(new PlayerControls());
+        sceneManager.world.addSystem(new PlayerControls(singletonManager));
 
         const player = new CircleEntity(this);
 
         sceneManager.addEntity(player);
-        
+
 
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor(0x0000ff);

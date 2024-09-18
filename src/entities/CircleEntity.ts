@@ -16,9 +16,8 @@ export class CircleEntity extends Entity {
         }));
         this.add(new GridTransformComponent(new Vector2(0, 0)));
         this.add(new GridWalkerComponent({
-            timeSinceLastMove: 0,
             moveInterval: 500,
-            moveStart: new Vector2(0, 0)
+            canMoveDiagonally: true,
         }));
     }
 }

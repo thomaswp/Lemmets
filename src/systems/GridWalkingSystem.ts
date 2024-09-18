@@ -37,12 +37,12 @@ export class GridWalkingSystem extends System {
         }
 
         if (gridWalker.timeSinceLastMove >= gridWalker.moveInterval) {
-            gridWalker.moveStart.set(gridTransform);
+            gridWalker.moveStart.setTo(gridTransform);
         }
 
         const perc = Math.min(gridWalker.timeSinceLastMove / gridWalker.moveInterval, 1);
         transform.x = lerp(gridWalker.moveStart.x, gridTransform.x, perc) * this.gridManager.tileWidth;
         transform.y = lerp(gridWalker.moveStart.y, gridTransform.y, perc) * this.gridManager.tileWidth;
-        
+
     }
 }
