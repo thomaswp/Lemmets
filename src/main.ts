@@ -1,3 +1,4 @@
+import GridEngine from 'grid-engine';
 import { Boot } from './scenes/Boot';
 import { Game as MainGame } from './scenes/Game';
 import { Preloader } from './scenes/Preloader';
@@ -15,6 +16,18 @@ const config: Types.Core.GameConfig = {
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    render: {
+        antialias: false,
+    },
+    plugins: {
+        scene: [
+            {
+                key: "gridEngine",
+                plugin: GridEngine,
+                mapping: "gridEngine",
+            },
+        ],
     },
     scene: [
         Boot,
